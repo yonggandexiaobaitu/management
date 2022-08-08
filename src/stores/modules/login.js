@@ -9,7 +9,7 @@ export default defineStore('loginStore', {
       userInfo: null,
       userMenus: [],
       token: null,
-   
+
     }
   },
   actions: {
@@ -20,7 +20,7 @@ export default defineStore('loginStore', {
       let userInfo = CacheforLocalStorage.getCache('userInfo');
       let userMenus = CacheforLocalStorage.getCache('userMenus');
       let token = CacheforLocalStorage.getCache('token');
-      
+
       try {
         this.userId = JSON.parse(userId);
       } catch (error) {
@@ -41,13 +41,13 @@ export default defineStore('loginStore', {
       } catch (error) {
         this.token = token;
       }
-      
+
 
     },
     //登陆请求行为
     async loginActions (account, password) {
-      
-   
+
+
       let res = await LoginApi.login(account, password);
       console.log('登陆请求结果res', res.data.data)
       //设置用户id
@@ -82,6 +82,16 @@ export default defineStore('loginStore', {
     //根据角色id获取到角色菜单
     async getUserMenusByRoleId () {
       let res = await LoginApi.getUserMenusByRoleId(this.userInfo.role.id);
+      res.data.data.push({
+        icon: "el-icon-chat-line-round",
+        id: 42,
+        name: "雅欣啊",
+        sort: 5,
+        type: 1,
+        url: "/main/story2",
+        children:[]
+      })
+
       this.userMenus = res.data.data;
       CacheforLocalStorage.setCache('userMenus', res.data.data)
       console.log('获取到角色菜单', res.data.data)
