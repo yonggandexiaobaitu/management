@@ -1,6 +1,8 @@
 import { defineStore } from "pinia"
+import Utils from "@/utils"
 import LoginApi from "@/service/api/login"
 import CacheforLocalStorage from "@/utils/cache"
+import {useRouter} from "vue-router"
 import router from "@/router/router.js"
 export default defineStore('loginStore', {
   state () {
@@ -33,8 +35,25 @@ export default defineStore('loginStore', {
       }
       try {
         this.userMenus = JSON.parse(userMenus);
+        let res2 = Utils.transformRoutesByuserMenus(this.userMenus)
+        console.log('根据角色id获取到角色菜单动态添加路由', res2);
+        const routes = Utils.flatUserMenus(res2)
+        // console.log('routes', routes);
+        routes.forEach(item => {
+          // console.log('item', item);
+          router.addRoute('main',item);//必须指定放在哪一个目录下面，不然的话，跳转的时候会放在路由的第一级router-view中
+        })
+       
       } catch (error) {
-        this.userMenus = userMenus
+        this.userMenus = userMenus;
+        // let res2 = Utils.transformRoutesByuserMenus(this.userMenus)
+        // console.log('根据角色id获取到角色菜单动态添加路由', res2);
+        // const routes = Utils.flatUserMenus(res2)
+        // // console.log('routes', routes);
+        // routes.forEach(item => {
+        //   // console.log('item', item);
+        //   router.addRoute(item)
+        // })
       }
       try {
         this.token = JSON.parse(token);
@@ -58,6 +77,16 @@ export default defineStore('loginStore', {
       await this.getUserInfoByid()
       //根据角色id获取到角色菜单
       await this.getUserMenusByRoleId();
+      //动态添加路由
+      let res2 = Utils.transformRoutesByuserMenus(this.userMenus)
+      console.log('根据角色id获取到角色菜单动态添加路由', res2);
+      const routes = Utils.flatUserMenus(res2)
+      // console.log('routes', routes);
+      routes.forEach(item => {
+        // console.log('item', item);
+        router.addRoute('main',item)
+      })
+
       //跳转到首页
       router.push('main')
 
@@ -82,15 +111,15 @@ export default defineStore('loginStore', {
     //根据角色id获取到角色菜单
     async getUserMenusByRoleId () {
       let res = await LoginApi.getUserMenusByRoleId(this.userInfo.role.id);
-      res.data.data.push({
-        icon: "el-icon-chat-line-round",
-        id: 42,
-        name: "雅欣啊",
-        sort: 5,
-        type: 1,
-        url: "/main/story2",
-        children:[]
-      })
+      // res.data.data.push({
+      //   icon: "el-icon-chat-line-round",
+      //   id: 42,
+      //   name: "雅欣啊",
+      //   sort: 5,
+      //   type: 1,
+      //   url: "/main/story2",
+      //   children:[]
+      // })
 
       this.userMenus = res.data.data;
       CacheforLocalStorage.setCache('userMenus', res.data.data)

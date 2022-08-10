@@ -21,7 +21,12 @@ const router=createRouter({
   routes
 })
 //axios添加前置导航守卫
+let flag = 0
 router.beforeEach((to, from) => {
+  if (flag === 0 && to.matched.length == 0) { 
+    flag++
+    router.push(to.path); 
+  } 
   if(to.path==='/login')return true;
   let token=CacheforLocalStorage.getCache('token');
   if(token){

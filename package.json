@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --mode dev",
-    "prod":"vite --mode prod",
+    "prod": "vite --mode prod",
     "devbuild": "vite build --mode dev",
-    "prodbuild":"vite build --mode prod",
+    "prodbuild": "vite build --mode prod",
     "preview": "vite preview"
   },
   "dependencies": {
