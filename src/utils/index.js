@@ -1,4 +1,5 @@
 import { defineAsyncComponent } from "vue"
+
 class Utils {
   /**
    * 判断是否是对象类型
@@ -47,11 +48,11 @@ class Utils {
         component: (() => {
           let modules = Utils.getModules();
           //根据item.url获取modules里面的
-          let key=null;
-          Object.keys(modules).forEach(item2=>{
-             if(item2.includes(item.url)){
-              key=item2;
-             }
+          let key = null;
+          Object.keys(modules).forEach(item2 => {
+            if (item2.includes(item.url)) {
+              key = item2;
+            }
           })
           return modules[key]
         })()
@@ -79,6 +80,25 @@ class Utils {
       }
       return preitem;
     }, [])
+  }
+  //根据路径匹配到仓库userMenus对应的id-------递归体操1
+  static getIdByStoreUserMenus (url, userMenus) {
+    let id = null;
+    console.log('id',id);
+    for (const item of userMenus) {
+      if (item.url === url&&item.type!==1) {
+        id = item.id;
+        return item.id;
+      } else if (item.children && item.children.length) {
+        let resid = Utils.getIdByStoreUserMenus(url, item.children)
+        console.log('resid',resid);
+        if (resid) {
+          id = resid;
+          return resid;
+        }
+      }
+
+    }
   }
 
 }

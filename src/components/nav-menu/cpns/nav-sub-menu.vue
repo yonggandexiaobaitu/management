@@ -1,22 +1,23 @@
 
 <!-- 代表当前是有子菜单的 -->
 <template>
-  <el-sub-menu :index="`${item.id}`" v-if="com_child(item)">
+  <el-sub-menu :index="`${String(item.id)}`" v-if="com_child(item)">
     <template #title>
-      {{ item.name }}
+      <EpAim /><EpFailed/>
+      <span>{{item.name}}</span>
+
     </template>
     <template v-for="(childrenItem, childrenindex) in item.children">
       <el-menu-item-group v-if="!childrenItem?.children?.length">
-        <el-menu-item @click="routepush(Object.assign(childrenItem,{i:item.name}))" :key="childrenindex" :index="`${childrenItem.id}`">{{ childrenItem.name }}</el-menu-item>
+        <el-menu-item @click="routepush(Object.assign(childrenItem,{i:item.name}))" :key="childrenindex" :index="`${String(childrenItem.id)}`">{{ childrenItem.name }}</el-menu-item>
       </el-menu-item-group>
       <template v-else>
-        <span>11</span>
-        <navSubMenu :item="Object.assign(childrenItem,{i:item.name})" />
+        <navSubMenu :item="Object.assign(childrenItem,{i:item.name})"  />
       </template>
     </template>
   </el-sub-menu>
   <!-- 代表没有子元素，那么采用以下 -->
-  <el-menu-item @click="routepush(item)" v-else :index="`${item.id}`">{{ item.name+'一级' }}</el-menu-item>
+  <el-menu-item @click="routepush(item)" v-else :index="`${String(item.id)}`">{{ item.name }}</el-menu-item>
 </template>
 <script>
 export default {
@@ -24,6 +25,8 @@ export default {
 }
 </script>
 <script setup>
+import EpAim from '~icons/ep/aim'
+import EpFailed from '~icons/ep/failed'
 import { computed } from "vue"
 import {useRouter} from "vue-router"
 const router=useRouter();
@@ -33,14 +36,18 @@ const props = defineProps({
     default: () => ({})
   }
 })
+const emits=defineEmits(['onItemClick'])
 const com_child=computed(()=>{
   return (item)=>{
+    // 
     return item.children && item.children.length&&item.children[0].type!==3
   }
 })
 const routepush=(item)=>{
-  console.log(item);
+  console.log(item,'emits',emits);
   router.push(item.url)
+  emits('onItemClick',item)
+
 }
 </script>
 
