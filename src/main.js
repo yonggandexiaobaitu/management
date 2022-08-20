@@ -15,7 +15,10 @@ loginStore.initStore();
 //引入路由
 import router from './router/router'
 app.use(router)
+import register from './registerGlobal/register'
+register(app)
+
 import App from './App.vue'
 
-console.log('路由路由');
+console.log('路由路由',app);
 app.mount('#app')

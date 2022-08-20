@@ -8,12 +8,10 @@
       </el-aside>
       <el-container>
         <el-header>
-
-          <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
-            <el-breadcrumb-item><a href="/">promotion management</a></el-breadcrumb-item>
-            <el-breadcrumb-item>promotion list</el-breadcrumb-item>
-            <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
+          <el-breadcrumb separator="=>">
+            <template v-for="(item,index) in getBreadData" :key="index">
+                <el-breadcrumb-item @click="onbreadcrumbClick(item)">{{item.name}}</el-breadcrumb-item>
+            </template>
           </el-breadcrumb>
         </el-header>
         <el-main>
@@ -27,7 +25,20 @@
 
 <script setup>
 import navMenu from "@/components/nav-menu/index.vue"
+import useLogin from "@/stores/modules/login.js"
+import { useRouter } from "vue-router";
+import {computed} from "vue"
+const  loginStore=useLogin();
+const router=useRouter();
+const getBreadData=computed(()=>{
+  return loginStore.breadData;
+})
+const onbreadcrumbClick=(item)=>{
+  console.log('item',item);
+  if(item.type===1)return;
+  router.push(item.url)
 
+}
 </script>
 
 <style lang="less" scoped>

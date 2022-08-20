@@ -1,0 +1,1 @@
+import{aq as a}from"./index.c7cff280.js";const p=function({offset:e=0,size:t=10,cellphone:r="",createAt:n="",enable:l="",name:o="",realname:s=""}={}){return a.post({url:"/department/list",data:{offset:e,size:t}})};export{p as d};

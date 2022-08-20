@@ -83,15 +83,14 @@ class Utils {
   }
   //根据路径匹配到仓库userMenus对应的id-------递归体操1
   static getIdByStoreUserMenus (url, userMenus) {
+    console.log('第一步根据url获取id当前url为',url);
     let id = null;
-    console.log('id',id);
     for (const item of userMenus) {
       if (item.url === url&&item.type!==1) {
         id = item.id;
         return item.id;
       } else if (item.children && item.children.length) {
         let resid = Utils.getIdByStoreUserMenus(url, item.children)
-        console.log('resid',resid);
         if (resid) {
           id = resid;
           return resid;
@@ -99,6 +98,39 @@ class Utils {
       }
 
     }
+  }
+  //根据id获取到父级id，树形结构需要返回一个数组的父级id列表
+  //第一层父级id肯定为[]
+  /**
+   * 返回的是父级id集合
+   * @param {} id 
+   * @param {*} userMenus 
+   * @param {*} parentIds 
+   * @returns 
+   */
+  static getBreadDataByStoreUserMenus(id,userMenus,parentIds=[]){
+    console.log('getBreadDataByStoreUserMenus先获取到当前path的id',id);
+    for (const item of userMenus) {
+      if(item.id===id){
+        //第一层的id肯定是[]
+        return parentIds;
+      }
+      if(item.children&&item.children.length){
+        //父级id+子id
+         let findid= Utils.getBreadDataByStoreUserMenus(id,item.children,[...parentIds,item.id,id])
+         console.log('findid',findid);
+         if(findid){
+         
+          return findid;
+         }
+      }
+      
+    }
+
+       
+    
+
+
   }
 
 }

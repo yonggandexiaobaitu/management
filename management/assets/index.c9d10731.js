@@ -1,0 +1,1 @@
+import{_ as e,o as a,c as n}from"./index.c7cff280.js";const s={};function c(r,t){return a(),n("div",null," dsadsadsa ")}const d=e(s,[["render",c],["__file","D:/\u57F9\u8BAD/\u7B2C\u516D\u9636\u6BB5vue/Management/vite-project/src/views/main/analysis/dashboard/index.vue"]]);export{d as default};

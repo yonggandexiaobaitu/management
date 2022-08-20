@@ -1,0 +1,1 @@
+import{_ as e,o as c,c as n}from"./index.c7cff280.js";const t={};function r(o,a){return c(),n("div",null," 22222222222 ")}const _=e(t,[["render",r],["__file","D:/\u57F9\u8BAD/\u7B2C\u516D\u9636\u6BB5vue/Management/vite-project/src/views/main/story/chat/index.vue"]]);export{_ as default};

@@ -2,15 +2,15 @@ import { defineStore } from "pinia"
 import Utils from "@/utils"
 import LoginApi from "@/service/api/login"
 import CacheforLocalStorage from "@/utils/cache"
-import {useRouter} from "vue-router"
 import router from "@/router/router.js"
 export default defineStore('loginStore', {
   state () {
     return {
-      userId: null,
-      userInfo: null,
-      userMenus: [],
-      token: null,
+      userId: null,//用户id
+      userInfo: null,//用户信息
+      userMenus: [],//用户菜单
+      token: null,//登陆token
+      breadData:[],//面包屑数据
 
     }
   },
@@ -86,7 +86,6 @@ export default defineStore('loginStore', {
         // console.log('item', item);
         router.addRoute('main',item)
       })
-
       //跳转到首页
       router.push('main')
 
